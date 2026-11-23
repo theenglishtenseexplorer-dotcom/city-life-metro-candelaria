@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171b2b">
+  <title>CITY LIFE | Metro Candelaria</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon">🏙️</span>
+        <div>
+          <h1>CITY LIFE</h1>
+          <small>METRO CANDELARIA</small>
+        </div>
+      </div>
+      <div id="game-clock">DAY 1 · MORNING</div>
+    </header>
+
+    <main id="game-screen">
+      <section id="welcome-screen" class="screen active">
+        <div class="hero">
+          <div class="hero-content">
+            <p class="eyebrow">YOUR STORY. YOUR CITY. YOUR LIFE.</p>
+            <h2>A new life<br>begins here.</h2>
+            <p>Every decision matters. Every encounter has a story.</p>
+            <button id="start-button" class="primary-btn">
+              START YOUR JOURNEY →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="creation-screen" class="screen">
+        <div class="panel">
+          <p class="eyebrow">CHARACTER CREATION</p>
+          <h2>Who will you become?</h2>
+          <form id="character-form">
+            <label for="player-name">Your name</label>
+            <input id="player-name" maxlength="24" required
+              placeholder="Enter your name">
+
+            <label for="player-age">Age</label>
+            <input id="player-age" type="number" min="18" max="80"
+              value="22" required>
+
+            <label for="player-background">Background</label>
+            <select id="player-background">
+              <option value="New Graduate">New Graduate</option>
+              <option value="Career Shifter">Career Shifter</option>
+              <option value="Young Professional">Young Professional</option>
+              <option value="Entrepreneur">Aspiring Entrepreneur</option>
+            </select>
+
+            <button class="primary-btn" type="submit">
+              ENTER METRO CANDELARIA →
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section id="dashboard-screen" class="screen">
+        <div class="welcome-heading">
+          <p class="eyebrow">METRO CANDELARIA</p>
+          <h2 id="greeting">Welcome to the city!</h2>
+          <p id="player-description"></p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card"><small>💰 MONEY</small><strong id="money">₱35,000</strong></div>
+          <div class="stat-card"><small>⚡ ENERGY</small><strong id="energy">100</strong></div>
+          <div class="stat-card"><small>❤️ HEALTH</small><strong id="health">100</strong></div>
+          <div class="stat-card"><small>😊 HAPPINESS</small><strong id="happiness">75</strong></div>
+        </div>
+
+        <div class="panel location-panel">
+          <p class="eyebrow">CURRENT LOCATION</p>
+          <h3>🏠 Studio Apartment</h3>
+          <p>Residential Heights, Metro Candelaria</p>
+        </div>
+
+        <div class="panel">
+          <p class="eyebrow">YOUR NEXT CHAPTER</p>
+          <h3>Chapter 1: Welcome to the City</h3>
+          <p>Your new life in Metro Candelaria is about to begin.</p>
+          <button class="primary-btn" id="story-button">BEGIN STORY →</button>
+        </div>
+
+        <nav class="bottom-nav">
+          <button data-page="story">📖<span>Story</span></button>
+          <button data-page="city">🏙️<span>City</span></button>
+          <button data-page="people">👥<span>People</span></button>
+          <button data-page="phone">📱<span>Phone</span></button>
+          <button data-page="profile">👤<span>Profile</span></button>
+        </nav>
+        <div id="section-content" class="panel section-content">
+          Choose a section to explore.
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
