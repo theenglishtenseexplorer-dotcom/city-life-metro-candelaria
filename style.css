@@ -32,3 +32,19 @@
 .tab-content{margin-top:12px}
 @media(max-width:850px){.district-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.scene-toolbar,.map-heading{align-items:flex-start;flex-direction:column}.map-button{width:100%}.district-grid{grid-template-columns:1fr}.district-title{min-height:0;margin-bottom:12px}.action-grid{grid-template-columns:1fr}.map-heading .secondary{width:100%}}
+
+/* Milestone 3.3 — top-down clickable neighborhood map */
+.map-status{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:10px 13px;margin:12px 0;background:#1b2335;border:1px solid var(--line);border-radius:9px;font-size:11px}
+.city-map{height:520px;position:relative;overflow:hidden;border-radius:14px;border:2px solid #66738a;background-color:#819b78;background-image:radial-gradient(#9bb18d 1px,transparent 1px);background-size:20px 20px;outline:none}
+.map-water{position:absolute;right:-5%;top:-15%;width:23%;height:130%;background:#6d9eae;transform:rotate(9deg);border-left:8px solid #a7c6bd;opacity:.9}
+.map-park{position:absolute;left:18%;top:7%;width:29%;height:32%;border-radius:38% 28% 35% 22%;background:#608b61;border:5px solid #8fae7e;box-shadow:inset 0 0 0 2px #496e4d;display:grid;place-items:center;color:#e8f0d7;font-size:11px;font-weight:800;letter-spacing:1px;text-shadow:0 1px 3px #304a34}
+.map-road{position:absolute;background:#b7b3a4;border:2px solid #d7d0bd;box-shadow:inset 0 0 0 2px #9f9c91}
+.road-horizontal{left:-5%;top:48%;width:110%;height:15%;transform:rotate(-5deg)}.road-vertical{left:57%;top:-8%;width:12%;height:120%;transform:rotate(8deg)}.road-diagonal{left:0;top:78%;width:110%;height:8%;transform:rotate(-18deg)}
+.road-label{position:absolute;z-index:1;color:#4e514a;font-size:9px;font-weight:900;letter-spacing:1px;pointer-events:none}.road-label-one{left:4%;top:51%}.road-label-two{left:62%;top:13%;transform:rotate(90deg)}
+.map-building{position:absolute;z-index:2;min-width:116px;min-height:78px;padding:7px 8px;border:3px solid #e0d4b6;border-radius:7px;background:#d7b98c;color:#3b342c;box-shadow:0 5px 0 #77644d,0 7px 10px #26332766;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;transform:translate(-50%,-50%);transition:filter .12s,transform .12s}
+.map-building span{font-size:23px}.map-building b{font-size:9px;letter-spacing:.3px}.map-building small{font-size:8px;color:#5f594d}
+.map-building:hover,.map-building.current{filter:brightness(1.12);outline:3px solid #f3c77e;transform:translate(-50%,-50%) scale(1.06)}
+.map-building.apartment{left:18%;top:70%;background:#c7cbd0}.map-building.cafe{left:54%;top:28%;background:#d6a879}.map-building.market{left:81%;top:69%;background:#d8bd83}.map-building.delivery{left:80%;top:37%;background:#b9c2c7}.map-building.park-gate{left:36%;top:25%;background:#9fbd8d}.map-building.sakayan{left:43%;top:76%;background:#d7c18d}
+.map-player{position:absolute;z-index:4;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;pointer-events:none;transition:left .09s linear,top .09s linear;filter:drop-shadow(0 2px 2px #222)}.map-player span{font-size:25px}.map-player small{font-size:8px;font-weight:900;color:#fff;background:#27354b;padding:2px 5px;border-radius:5px}
+.map-legend{display:flex;gap:15px;flex-wrap:wrap;padding:12px 2px 2px;color:var(--muted);font-size:10px}
+@media(max-width:650px){.city-map{height:440px}.map-building{min-width:88px;min-height:66px;padding:5px}.map-building span{font-size:18px}.map-building b{font-size:7px}.map-building small{font-size:7px}.map-legend{gap:8px;font-size:9px}}
