@@ -32,18 +32,26 @@
 <section id="game-screen" class="screen">
   <div class="welcome-row"><div><p class="eyebrow" id="day-label">METRO CANDELARIA · DAY 1</p><h1 id="greeting">Good morning!</h1><p id="player-description" class="muted"></p></div><div id="mini-avatar" class="avatar small-avatar tone-2 hair-dark outfit-blue"><div class="hair"></div><div class="face"><i>••</i><em></em></div><div class="neck"></div><div class="body"></div></div></div>
   <div class="stats"><div class="stat"><small>💰 MONEY</small><b id="money">₱35,000</b></div><div class="stat"><small>⚡ ENERGY</small><b id="energy">100</b><div class="meter"><i id="energy-meter"></i></div></div><div class="stat"><small>❤️ HEALTH</small><b id="health">100</b><div class="meter"><i id="health-meter"></i></div></div><div class="stat"><small>😊 MOOD</small><b id="happiness">75</b><div class="meter"><i id="happiness-meter"></i></div></div></div>
-  <div class="world-layout">
-    <section class="world panel">
-      <div class="world-scene"><div class="sun"></div><div class="skyline"></div><div class="street"></div><div class="scene-label"><span id="location-name">Studio Apartment</span><small id="district-name">Residential Heights</small></div></div>
-      <div class="world-heading"><div><p class="eyebrow">YOUR SURROUNDINGS</p><h2 id="location-title">Your new neighborhood</h2></div><span class="pill" id="weather-label">☀️ Clear day</span></div>
-      <p id="location-description" class="muted">A new day is waiting outside your door.</p>
-      <div id="location-actions" class="action-grid"></div>
-    </section>
-    <aside class="side-column">
-      <section class="panel task-panel"><div class="panel-head"><div><p class="eyebrow">WHAT'S HAPPENING</p><h2>Life & tasks</h2></div><span class="pill" id="task-count">0 active</span></div><div id="task-list"></div></section>
-      <section class="panel event-panel"><p class="eyebrow">RECENT MOMENT</p><h2 id="event-title">A fresh start</h2><p id="event-text" class="muted">Your new life in Metro Candelaria begins today.</p><div id="event-choices" class="choice-list"></div></section>
-    </aside>
+  <div id="scene-view">
+    <div class="world-layout">
+      <section class="world panel">
+        <div class="scene-toolbar"><div><p class="eyebrow">CURRENT LOCATION</p><h2 id="location-title">Your place in the city</h2><p class="muted location-crumb" id="location-crumb">Residential Heights · Metro Candelaria</p></div><button class="map-button" id="open-map">🗺️ CITY MAP</button></div>
+        <div class="world-scene"><div class="sun"></div><div class="skyline"></div><div class="street"></div><div class="scene-label"><span id="location-name">Studio Apartment</span><small id="district-name">Residential Heights</small></div></div>
+        <div class="world-heading"><p class="eyebrow">WHAT CAN YOU DO HERE?</p><span class="pill" id="weather-label">☀️ Clear day</span></div>
+        <p id="location-description" class="muted">Your small apartment is a quiet base between city adventures.</p>
+        <div id="location-actions" class="action-grid"></div>
+      </section>
+      <aside class="side-column">
+        <section class="panel task-panel"><div class="panel-head"><div><p class="eyebrow">WHAT'S HAPPENING</p><h2>Life & tasks</h2></div><span class="pill" id="task-count">0 active</span></div><div id="task-list"></div></section>
+        <section class="panel event-panel"><p class="eyebrow">RECENT MOMENT</p><h2 id="event-title">A new beginning</h2><p id="event-text" class="muted">Your new life in Metro Candelaria begins today.</p><div id="event-choices" class="choice-list"></div></section>
+      </aside>
+    </div>
   </div>
+  <section id="map-view" class="panel map-view hidden">
+    <div class="map-heading"><div><p class="eyebrow">GETTING AROUND</p><h2>Metro Candelaria</h2><p class="muted">Choose a destination. Nearby places are easier to reach on foot.</p></div><button class="secondary" id="close-map">← BACK TO SCENE</button></div>
+    <div class="map-banner"><span>🏙️</span><div><b>Explore the city</b><small>Choose a district, then visit a place within it.</small></div></div>
+    <div id="district-list" class="district-grid"></div>
+  </section>
   <nav class="bottom-nav">
     <button class="active" data-tab="city">🏙️<span>City</span></button><button data-tab="tasks">📋<span>Tasks</span></button><button data-tab="people">👥<span>People</span></button><button data-tab="phone">📱<span>Phone</span></button><button data-tab="profile">👤<span>Profile</span></button>
   </nav>
