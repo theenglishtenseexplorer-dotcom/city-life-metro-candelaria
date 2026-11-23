@@ -9,7 +9,7 @@ const places={
 "Community Park":{district:"Central District",desc:"A green pocket in the middle of the busy city. People exercise, relax, and meet friends.",actions:[["Take a relaxing walk","walk"],["Talk to the park regular","parkNpc"]]},
 "Sunrise Café":{district:"Central District",desc:"The smell of fresh coffee drifts onto the sidewalk. Students and office workers fill the tables.",actions:[["Buy a coffee · ₱150","coffee"],["Look for a seat","seat"],["Chat with someone nearby","cafeNpc"]]},
 "Delivery Office":{district:"Market Quarter",desc:"A busy neighborhood delivery counter. Parcels are stacked behind the service desk.",actions:[["Ask about Mara's package","package"]]},
-"Market Street":{district:"Market Quarter",desc:"A lively strip of stalls, groceries, and small shops.",actions:[["Browse the stalls","browse"],["Buy a snack · ₱80","snack"]]}
+"Market Street":{district:"Market Quarter",desc:"A lively strip of stalls, groceries, and small shops.",actions:[["Browse the stalls","browse"],["Buy a snack · ₱80","snack"]]},"Sakayan Terminal":{district:"Residential Heights",desc:"A neighborhood transport stop. Jeepneys connect you to busy districts, while tricycles can take you directly to nearby destinations.",actions:[["Ride jeepney to Sunrise Café · ₱20","jeepCentral"],["Ride jeepney to Market Street · ₱25","jeepMarket"],["Hire a tricycle to the café · ₱60","trikeCafe"],["Hire a tricycle to the market · ₱70","trikeMarket"]]}
 };
 const districts=[
 {name:"Residential Heights",icon:"🏘️",desc:"Quiet streets, apartment buildings, and familiar neighbors.",places:["Studio Apartment","Apartment Hallway"]},
@@ -34,7 +34,7 @@ $("location-name").textContent=s.location;$("district-name").textContent=place.d
 $("location-title").textContent=s.location==="Studio Apartment"?"Your place in the city":s.location;
 $("location-crumb").textContent=place.district+" · Metro Candelaria";
 $("location-description").textContent=place.desc;
-$("location-actions").innerHTML=place.actions.map(([label,act])=>`<button class="action-btn" data-action="${act}">${label} →</button>`).join("");
+let sceneActions=[...place.actions];if(s.location==="Apartment Hallway"&&s.inventory.includes("Mara's package")&&!sceneActions.some(x=>x[1]==="packageReturn"))sceneActions.push(["Deliver Mara's package","packageReturn"]);$("location-actions").innerHTML=sceneActions.map(([label,act])=>`<button class="action-btn" data-action="${act}">${label} →</button>`).join("");
 $("location-actions").querySelectorAll("button").forEach(b=>b.onclick=()=>act(b.dataset.action));
 renderTasks();save();
 }
@@ -42,7 +42,7 @@ function task(id,title,desc,steps,reward){if(s.tasks.some(t=>t.id===id))return;s
 function renderTasks(){$("task-count").textContent=s.tasks.filter(t=>!t.done).length+" active";$("task-list").innerHTML=s.tasks.length?s.tasks.map(t=>`<div class="task-item"><b>${t.done?"✓ ":""}${esc(t.title)}</b><p>${esc(t.desc)}</p><p>${t.progress}/${t.steps} objectives</p></div>`).join(""):'<p class="muted">No tasks right now. Explore the city and see what happens.</p>'}
 function moment(title,text,choices){$("event-title").textContent=title;$("event-text").textContent=text;$("event-choices").innerHTML="";(choices||[]).forEach(c=>{let b=document.createElement("button");b.className="choice-btn";b.textContent=c.label;b.onclick=()=>{c.run();$("event-choices").innerHTML="";update()};$("event-choices").append(b)})}
 function advance(){s.period++;if(s.period>=4){s.period=0;s.day++;s.stats.energy=Math.min(100,s.stats.energy+25)}}
-function move(place){if(!places[place])return;let old=places[s.location]?.district;s.location=place;advance();s.stats.energy=Math.max(0,s.stats.energy-2);moment("You arrive at "+place,places[place].desc,[]);if(old!==places[place].district)toast("You traveled to "+places[place].district+".");checkEvents();showScene();update()}
+function move(place,mode="walk"){if(!places[place])return;let old=places[s.location]?.district,next=places[place].district,cross=old&&old!==next;if(cross){let fare=mode==="tricycleMarket"?70:mode==="tricycle"?60:mode==="jeepMarket"?25:20;if(s.stats.money<fare){toast("You need ₱"+fare+" for the trip. Visit the sakayan or choose a nearby place.");return}s.stats.money-=fare;}s.location=place;advance();s.stats.energy=Math.max(0,s.stats.energy-(cross?1:2));moment(cross?(mode.startsWith("tricycle")?"Tricycle ride":"Jeepney ride"):"You arrive at "+place,cross?("You travel to "+next+". "+places[place].desc):places[place].desc,[]);if(cross)toast("Travel fare paid: ₱"+(mode==="tricycleMarket"?70:mode==="tricycle"?60:mode==="jeepMarket"?25:20));checkEvents();showScene();update()}
 function checkEvents(){
 if(s.location==="Apartment Hallway"&&!s.eventSeen.mara){s.eventSeen.mara=true;moment("A familiar face","Your neighbor Mara steps out carrying a small tote bag. “Hey! You must be the new neighbor. I'm Mara. Welcome!”",[{label:"Introduce yourself warmly",run:()=>{s.relationships.Mara+=2;task("mara-favor","A Small Favor","Mara asks you to collect a package before the office closes.",2,250);s.messages.unshift("Mara: Thanks for being so friendly! Could I ask a small favor?");moment("Mara has a favor","She needs a package collected from the Delivery Office in the Market Quarter. You can do it now or whenever it suits you.",[])}},{label:"Say hello, but keep moving",run:()=>{s.relationships.Mara++;s.messages.unshift("Mara: Nice meeting you! See you around.");moment("A quick hello","You exchange a polite greeting. Perhaps you'll talk again another day.",[])}}])}
 else if(s.location==="Sunrise Café"&&!s.eventSeen.cafe){s.eventSeen.cafe=true;moment("A message from Mara","Your phone buzzes. Mara sent you a message: “No rush on that favor. The delivery office closes this evening.”",[{label:"Reply: I'll see what I can do",run:()=>{s.messages.unshift("You: I'll see what I can do!");toast("Message sent.")}},{label:"Leave it for later",run:()=>toast("You can reply anytime from your phone.")}])}
@@ -58,14 +58,32 @@ case"parkNpc":moment("A park regular","An older resident smiles. “New around h
 case"coffee":if(s.stats.money<150){toast("Not enough money.");break}s.stats.money-=150;s.stats.happiness=Math.min(100,s.stats.happiness+5);moment("Coffee break","You enjoy a cup of coffee and watch the busy café.",[]);advance();break;
 case"seat":moment("A quiet corner","You find a seat near the window. People pass by outside.",[]);break;
 case"cafeNpc":moment("Someone catches your eye","A person at the next table asks whether the café is always this busy.",[{label:"Start a conversation",run:()=>{s.stats.happiness=Math.min(100,s.stats.happiness+3);toast("You made a new acquaintance.")}},{label:"Smile and return to your coffee",run:()=>toast("Maybe another time.")}]);break;
+case"packageReturn":if(!s.inventory.includes("Mara's package")){toast("You do not have Mara's package.");break}s.inventory=s.inventory.filter(x=>x!=="Mara's package");complete("mara-favor");moment("Mara is grateful","You deliver the package to Mara. She thanks you warmly.",[]);break;
 case"package":if(!s.tasks.some(t=>t.id==="mara-favor"&&!t.done)){toast("There is no package to collect.");break}if(s.inventory.includes("Mara's package")){toast("You already collected the package.");break}s.inventory.push("Mara's package");complete("mara-favor");moment("Package collected","The clerk hands you a small parcel addressed to Mara. Return it to her at the apartment hallway.",[]);break;
 case"browse":moment("Market Street","Colorful stalls line the street. You spot snacks, clothes, and household goods.",[{label:"Buy a snack · ₱80",run:()=>{if(s.stats.money>=80){s.stats.money-=80;s.stats.energy=Math.min(100,s.stats.energy+8);toast("Snack purchased.")}else toast("Not enough money.")}},{label:"Just look around",run:()=>toast("You browse the stalls.")}]);break;
 case"snack":if(s.stats.money>=80){s.stats.money-=80;s.stats.energy=Math.min(100,s.stats.energy+8);toast("You bought a snack.")}else toast("Not enough money.");break;
+case"jeepCentral":move("Sunrise Café","jeepney");break;case"jeepMarket":move("Market Street","jeepMarket");break;case"trikeCafe":move("Sunrise Café","tricycle");break;case"trikeMarket":move("Market Street","tricycleMarket");break;
 case"phone":tab("phone");break;
 }}
 function renderMap(){
-$("district-list").innerHTML=districts.map(d=>`<article class="district-card"><div class="district-title"><span>${d.icon}</span><div><h3>${d.name}</h3><p>${d.desc}</p></div></div><div class="destination-list">${d.places.map(name=>`<button class="destination-btn ${s.location===name?"current":""}" data-destination="${esc(name)}"><span><b>${esc(name)}</b><small>${s.location===name?"You are here":"Visit location"}</small></span><span>${s.location===name?"✓":"→"}</span></button>`).join("")}</div></article>`).join("");
-$("district-list").querySelectorAll("[data-destination]").forEach(b=>b.onclick=()=>{let dest=b.dataset.destination;if(dest===s.location){showScene();return}move(dest)});
+const pos={"Studio Apartment":[18,70],"Sunrise Café":[54,28],"Market Street":[81,69],"Delivery Office":[80,37],"Community Park":[36,25],"Sakayan Terminal":[43,76],"Apartment Hallway":[18,70]}[s.location]||[18,70];
+mapX=pos[0];mapY=pos[1];updateMapPlayer();$("map-current-location").textContent=s.location;
+document.querySelectorAll(".map-building").forEach(b=>{b.classList.toggle("current",b.dataset.place===s.location);b.onclick=()=>{if(b.dataset.place===s.location)showScene();else move(b.dataset.place)}});
+$("city-map").focus({preventScroll:true});
+}
+let mapX=18,mapY=70;
+function updateMapPlayer(){const p=$("map-player");if(p){p.style.left=mapX+"%";p.style.top=mapY+"%"}}
+function mapKey(e){
+if($("map-view").classList.contains("hidden"))return;
+const k=e.key.toLowerCase();if(!["arrowup","arrowdown","arrowleft","arrowright","w","a","s","d","e"].includes(k))return;
+if(k.startsWith("arrow"))e.preventDefault();
+if(k==="e"){
+const spots={"Studio Apartment":[18,70],"Sunrise Café":[54,28],"Market Street":[81,69],"Delivery Office":[80,37],"Community Park":[36,25],"Sakayan Terminal":[43,76]};
+const nearest=Object.entries(spots).map(([n,p])=>({n,d:Math.hypot(mapX-p[0],mapY-p[1])})).sort((a,b)=>a.d-b.d)[0];
+if(nearest&&nearest.d<12){if(nearest.n===s.location)showScene();else move(nearest.n)}else toast("Move closer to a building to enter.");return;
+}
+const step=2.3;if(k==="arrowup"||k==="w")mapY-=step;if(k==="arrowdown"||k==="s")mapY+=step;if(k==="arrowleft"||k==="a")mapX-=step;if(k==="arrowright"||k==="d")mapX+=step;
+mapX=Math.max(5,Math.min(95,mapX));mapY=Math.max(8,Math.min(92,mapY));updateMapPlayer();
 }
 function showMap(){$("scene-view").classList.add("hidden");$("map-view").classList.remove("hidden");renderMap();document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab==="city"));$("tab-content").classList.add("hidden")}
 function showScene(){$("map-view").classList.add("hidden");$("scene-view").classList.remove("hidden");document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b.dataset.tab==="city"))}
@@ -78,6 +96,7 @@ if(name==="profile")box.innerHTML=`<p class="eyebrow">YOUR LIFE</p><h2>${esc(s.p
 function esc(x){return String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function start(e){e.preventDefault();let p={name:$("player-name").value.trim(),age:+$("player-age").value,gender:$("player-gender").value,background:$("player-background").value,customBackground:$("custom-background").value.trim(),skinTone:$("skin-tone").value,hairStyle:$("hair-style").value,hairColor:$("hair-color").value,outfit:$("outfit").value};if(!p.name||p.age<18||p.age>80){toast("Enter a name and an age from 18 to 80.");return}if(p.background==="Custom"&&!p.customBackground){toast("Please write your character's background.");return}s={...structuredClone(base),started:true,player:p};screen("game-screen");update();moment("A new beginning","You arrive at your studio apartment in Residential Heights. The city stretches beyond your window. Unpack, rest, or step into the hallway when you're ready.",[])}
 function init(){
+document.addEventListener("keydown",mapKey);
 $("start-button").onclick=()=>{screen("creation-screen");preview()};
 $("continue-button").onclick=()=>{screen("game-screen");update();checkEvents()};
 $("character-form").onsubmit=start;
