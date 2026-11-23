@@ -48,9 +48,21 @@
     </div>
   </div>
   <section id="map-view" class="panel map-view hidden">
-    <div class="map-heading"><div><p class="eyebrow">GETTING AROUND</p><h2>Metro Candelaria</h2><p class="muted">Choose a destination. Nearby places are easier to reach on foot.</p></div><button class="secondary" id="close-map">← BACK TO SCENE</button></div>
-    <div class="map-banner"><span>🏙️</span><div><b>Explore the city</b><small>Choose a district, then visit a place within it.</small></div></div>
-    <div id="district-list" class="district-grid"></div>
+    <div class="map-heading"><div><p class="eyebrow">METRO CANDELARIA · CITY MAP</p><h2>Explore your neighborhood</h2><p class="muted">Click a place to visit, or move with WASD / arrow keys. Press E near a building to enter.</p></div><button class="secondary" id="close-map">← BACK TO SCENE</button></div>
+    <div class="map-status"><span>📍 <b id="map-current-location">Studio Apartment</b></span><span>🕹️ <span class="muted">WASD / arrows to walk · E to enter</span></span></div>
+    <div id="city-map" class="city-map" tabindex="0" aria-label="Top-down interactive neighborhood map">
+      <div class="map-water"></div><div class="map-park"><span>🌳 COMMUNITY PARK</span></div>
+      <div class="map-road road-horizontal"></div><div class="map-road road-vertical"></div><div class="map-road road-diagonal"></div>
+      <div class="road-label road-label-one">RIZAL AVENUE</div><div class="road-label road-label-two">MABINI STREET</div>
+      <button class="map-building apartment" data-place="Studio Apartment"><span>🏢</span><b>STUDIO APARTMENT</b><small>Residential Heights</small></button>
+      <button class="map-building cafe" data-place="Sunrise Café"><span>☕</span><b>SUNRISE CAFÉ</b><small>Central District</small></button>
+      <button class="map-building market" data-place="Market Street"><span>🛍️</span><b>MARKET STREET</b><small>Market Quarter</small></button>
+      <button class="map-building delivery" data-place="Delivery Office"><span>📦</span><b>DELIVERY OFFICE</b><small>Market Quarter</small></button>
+      <button class="map-building park-gate" data-place="Community Park"><span>🌲</span><b>PARK ENTRANCE</b><small>Central District</small></button>
+      <button class="map-building sakayan" data-place="Sakayan Terminal"><span>🛺</span><b>SAKAYAN</b><small>Jeepney · Tricycle</small></button>
+      <div id="map-player" class="map-player" style="left:18%;top:70%"><span>🧍</span><small>YOU</small></div>
+    </div>
+    <div class="map-legend"><span>🏠 Residential Heights</span><span>🌳 Central District</span><span>🛍️ Market Quarter</span><span>🛺 Transport hub</span></div>
   </section>
   <nav class="bottom-nav">
     <button class="active" data-tab="city">🏙️<span>City</span></button><button data-tab="tasks">📋<span>Tasks</span></button><button data-tab="people">👥<span>People</span></button><button data-tab="phone">📱<span>Phone</span></button><button data-tab="profile">👤<span>Profile</span></button>
