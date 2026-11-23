@@ -1,107 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#171b2b">
-  <title>CITY LIFE | Metro Candelaria</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#171b2b"><title>CITY LIFE | Metro Candelaria</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app">
-    <header class="topbar">
-      <a class="brand" href="#" id="brand-home" aria-label="CITY LIFE home">
-        <span class="brand-icon">🏙️</span>
-        <span><strong>CITY LIFE</strong><small>METRO CANDELARIA</small></span>
-      </a>
-      <div class="topbar-right">
-        <span id="game-clock">DAY 1 · MORNING</span>
-        <button id="save-indicator" class="save-pill" title="Game saves automatically">● SAVED</button>
-      </div>
-    </header>
-
-    <main id="game-screen">
-      <section id="welcome-screen" class="screen active">
-        <div class="hero">
-          <div class="hero-content">
-            <p class="eyebrow">YOUR STORY. YOUR CITY. YOUR LIFE.</p>
-            <h1>A new life<br>begins here.</h1>
-            <p>Eight districts. Countless possibilities. Every decision helps shape the life you'll build in Metro Candelaria.</p>
-            <div class="hero-actions">
-              <button id="start-button" class="primary-btn">CREATE YOUR CHARACTER <span>→</span></button>
-              <button id="continue-button" class="secondary-btn hidden">CONTINUE YOUR LIFE</button>
-            </div>
-            <p class="tiny-note">A choice-driven open-life simulation</p>
-          </div>
-          <div class="hero-art" aria-hidden="true">
-            <div class="sun"></div><div class="skyline skyline-back"></div><div class="skyline skyline-front"></div>
-            <div class="hero-street"></div><div class="hero-person">🧍</div>
-            <span class="hero-label">METRO CANDELARIA</span>
-          </div>
-        </div>
-      </section>
-
-      <section id="creation-screen" class="screen">
-        <div class="section-heading">
-          <p class="eyebrow">THE FIRST CHOICE IS YOURS</p>
-          <h2>Create your character</h2>
-          <p>Make someone who feels like you—or someone completely different.</p>
-        </div>
-        <form id="character-form" class="creator-layout">
-          <div class="creator-preview panel">
-            <div class="avatar-stage">
-              <div id="avatar-preview" class="avatar avatar-medium tone-2 hair-dark outfit-blue">
-                <div class="avatar-hair"></div><div class="avatar-face"><span class="eyes">••</span><span class="mouth"></span></div>
-                <div class="avatar-neck"></div><div class="avatar-body"></div>
-              </div>
-            </div>
-            <h3 id="preview-name">Your character</h3>
-            <p id="preview-meta">Your new life is waiting.</p>
-            <span class="preview-caption">ILLUSTRATED 2D AVATAR</span>
-          </div>
-          <div class="creator-fields panel">
-            <div class="field-grid">
-              <div class="field full"><label for="player-name">Character name</label><input id="player-name" maxlength="24" required placeholder="What should we call you?"></div>
-              <div class="field"><label for="player-age">Age</label><input id="player-age" type="number" min="18" max="80" value="22" required></div>
-              <div class="field"><label for="player-gender">Gender</label><select id="player-gender"><option value="Woman">Female</option><option value="Man">Male</option><option value="Non-binary">Non-binary</option><option value="Prefer not to say">Prefer not to say</option></select></div>
-              <div class="field full"><label for="player-background">Life background</label><select id="player-background"><option value="New Graduate">New Graduate</option><option value="Career Shifter">Career Shifter</option><option value="Young Professional">Young Professional</option><option value="Entrepreneur">Aspiring Entrepreneur</option><option value="Returning Resident">Returning Resident</option><option value="Starting Over">Starting Over</option><option value="Custom">I'll write my own</option></select></div>
-              <div class="field full hidden" id="custom-background-wrap"><label for="custom-background">Your background</label><input id="custom-background" maxlength="80" placeholder="Tell us a little about your character's past"></div>
-              <div class="field"><label for="skin-tone">Skin tone</label><select id="skin-tone"><option value="tone-1">Light</option><option value="tone-2" selected>Warm beige</option><option value="tone-3">Golden tan</option><option value="tone-4">Deep brown</option></select></div>
-              <div class="field"><label for="hair-style">Hairstyle</label><select id="hair-style"><option value="short">Short</option><option value="long">Long</option><option value="curly">Curly</option><option value="bob">Bob</option></select></div>
-              <div class="field"><label for="hair-color">Hair color</label><select id="hair-color"><option value="hair-dark">Black</option><option value="hair-brown">Brown</option><option value="hair-blonde">Blonde</option><option value="hair-red">Auburn</option></select></div>
-              <div class="field"><label for="outfit">Everyday outfit</label><select id="outfit"><option value="outfit-blue">Blue</option><option value="outfit-green">Green</option><option value="outfit-pink">Rose</option><option value="outfit-cream">Cream</option></select></div>
-            </div>
-            <div class="creator-actions">
-              <button type="button" class="secondary-btn" id="back-welcome">BACK</button>
-              <button type="submit" class="primary-btn">START MY NEW LIFE →</button>
-            </div>
-          </div>
-        </form>
-      </section>
-
-      <section id="dashboard-screen" class="screen">
-        <div class="dashboard-welcome">
-          <div><p class="eyebrow">METRO CANDELARIA · DAY <span id="day-number">1</span></p><h2 id="greeting">Welcome to the city!</h2><p id="player-description">Your new life starts here.</p></div>
-          <div id="dashboard-avatar" class="avatar avatar-small tone-2 hair-dark outfit-blue"><div class="avatar-hair"></div><div class="avatar-face"><span class="eyes">••</span><span class="mouth"></span></div><div class="avatar-neck"></div><div class="avatar-body"></div></div>
-        </div>
-        <div class="stats-grid">
-          <div class="stat-card"><small>💰 MONEY</small><strong id="money">₱35,000</strong></div>
-          <div class="stat-card"><small>⚡ ENERGY</small><strong id="energy">100</strong><div class="meter"><i id="energy-meter"></i></div></div>
-          <div class="stat-card"><small>❤️ HEALTH</small><strong id="health">100</strong><div class="meter"><i id="health-meter"></i></div></div>
-          <div class="stat-card"><small>😊 HAPPINESS</small><strong id="happiness">75</strong><div class="meter"><i id="happiness-meter"></i></div></div>
-        </div>
-        <div class="dashboard-grid">
-          <article class="panel location-panel"><p class="eyebrow">CURRENT LOCATION</p><h3>📍 <span id="current-location">Studio Apartment</span></h3><p id="current-district">Residential Heights, Metro Candelaria</p><button class="text-btn" data-goto="city">Explore the city →</button></article>
-          <article class="panel chapter-panel"><p class="eyebrow">YOUR CURRENT STORY</p><span class="chapter-tag">SEASON 1 · CHAPTER 1</span><h3 id="chapter-title">Welcome to the City</h3><p id="chapter-summary">A new address, a new beginning, and a city full of possibilities.</p><button class="primary-btn" id="story-button">CONTINUE STORY →</button></article>
-        </div>
-        <nav class="bottom-nav" aria-label="Main navigation">
-          <button data-page="story" class="nav-active">📖<span>Story</span></button><button data-page="city">🏙️<span>City</span></button><button data-page="people">👥<span>People</span></button><button data-page="phone">📱<span>Phone</span></button><button data-page="profile">👤<span>Profile</span></button>
-        </nav>
-        <section id="section-content" class="panel section-content"></section>
-      </section>
-    </main>
-    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+<header class="topbar">
+  <a class="brand" href="#" id="brand-home"><span class="brand-icon">🏙️</span><span><b>CITY LIFE</b><small>METRO CANDELARIA</small></span></a>
+  <div class="top-info"><span id="game-clock">DAY 1 · MORNING</span><span id="save-indicator">● SAVED</span></div>
+</header>
+<main>
+<section id="welcome-screen" class="screen active">
+  <div class="hero"><div class="hero-copy"><p class="eyebrow">YOUR STORY. YOUR CITY. YOUR LIFE.</p><h1>A new life<br>begins here.</h1><p>Explore eight districts, meet people, discover opportunities, and shape your own life in Metro Candelaria.</p><button class="primary" id="start-button">CREATE YOUR CHARACTER →</button><button class="secondary hidden" id="continue-button">CONTINUE YOUR LIFE</button><p class="muted small">An open-life simulation where the story happens as you live.</p></div><div class="hero-art"><span>☀️</span><b>METRO CANDELARIA</b></div></div>
+</section>
+<section id="creation-screen" class="screen">
+  <div class="heading"><p class="eyebrow">THE FIRST CHOICE IS YOURS</p><h1>Create your character</h1><p>Make someone who feels like you—or someone completely different.</p></div>
+  <form id="character-form" class="creator">
+    <div class="panel preview"><div class="avatar-stage"><div id="avatar-preview" class="avatar tone-2 hair-dark outfit-blue"><div class="hair"></div><div class="face"><i>••</i><em></em></div><div class="neck"></div><div class="body"></div></div></div><h2 id="preview-name">Your character</h2><p id="preview-meta">Your new life is waiting.</p></div>
+    <div class="panel fields">
+      <label>Character name<input id="player-name" maxlength="24" required placeholder="What should we call you?"></label>
+      <div class="two"><label>Age<input id="player-age" type="number" min="18" max="80" value="22" required></label><label>Gender<select id="player-gender"><option>Woman</option><option>Man</option><option>Non-binary</option><option>Prefer not to say</option></select></label></div>
+      <label>Life background<select id="player-background"><option>New Graduate</option><option>Career Shifter</option><option>Young Professional</option><option>Entrepreneur</option><option>Returning Resident</option><option>Starting Over</option><option>Custom</option></select></label>
+      <label id="custom-wrap" class="hidden">Your background<input id="custom-background" maxlength="90" placeholder="Tell us about your character's past"></label>
+      <div class="two"><label>Skin tone<select id="skin-tone"><option value="tone-1">Light</option><option value="tone-2" selected>Warm beige</option><option value="tone-3">Golden tan</option><option value="tone-4">Deep brown</option></select></label><label>Hairstyle<select id="hair-style"><option value="short">Short</option><option value="long">Long</option><option value="curly">Curly</option><option value="bob">Bob</option></select></label></div>
+      <div class="two"><label>Hair color<select id="hair-color"><option value="hair-dark">Black</option><option value="hair-brown">Brown</option><option value="hair-blonde">Blonde</option><option value="hair-red">Auburn</option></select></label><label>Everyday outfit<select id="outfit"><option value="outfit-blue">Blue</option><option value="outfit-green">Green</option><option value="outfit-pink">Rose</option><option value="outfit-cream">Cream</option></select></label></div>
+      <button class="primary full" type="submit">START MY NEW LIFE →</button>
+    </div>
+  </form>
+</section>
+<section id="game-screen" class="screen">
+  <div class="welcome-row"><div><p class="eyebrow" id="day-label">METRO CANDELARIA · DAY 1</p><h1 id="greeting">Good morning!</h1><p id="player-description" class="muted"></p></div><div id="mini-avatar" class="avatar small-avatar tone-2 hair-dark outfit-blue"><div class="hair"></div><div class="face"><i>••</i><em></em></div><div class="neck"></div><div class="body"></div></div></div>
+  <div class="stats"><div class="stat"><small>💰 MONEY</small><b id="money">₱35,000</b></div><div class="stat"><small>⚡ ENERGY</small><b id="energy">100</b><div class="meter"><i id="energy-meter"></i></div></div><div class="stat"><small>❤️ HEALTH</small><b id="health">100</b><div class="meter"><i id="health-meter"></i></div></div><div class="stat"><small>😊 MOOD</small><b id="happiness">75</b><div class="meter"><i id="happiness-meter"></i></div></div></div>
+  <div class="world-layout">
+    <section class="world panel">
+      <div class="world-scene"><div class="sun"></div><div class="skyline"></div><div class="street"></div><div class="scene-label"><span id="location-name">Studio Apartment</span><small id="district-name">Residential Heights</small></div></div>
+      <div class="world-heading"><div><p class="eyebrow">YOUR SURROUNDINGS</p><h2 id="location-title">Your new neighborhood</h2></div><span class="pill" id="weather-label">☀️ Clear day</span></div>
+      <p id="location-description" class="muted">A new day is waiting outside your door.</p>
+      <div id="location-actions" class="action-grid"></div>
+    </section>
+    <aside class="side-column">
+      <section class="panel task-panel"><div class="panel-head"><div><p class="eyebrow">WHAT'S HAPPENING</p><h2>Life & tasks</h2></div><span class="pill" id="task-count">0 active</span></div><div id="task-list"></div></section>
+      <section class="panel event-panel"><p class="eyebrow">RECENT MOMENT</p><h2 id="event-title">A fresh start</h2><p id="event-text" class="muted">Your new life in Metro Candelaria begins today.</p><div id="event-choices" class="choice-list"></div></section>
+    </aside>
   </div>
-  <script src="game.js"></script>
-</body>
-</html>
+  <nav class="bottom-nav">
+    <button class="active" data-tab="city">🏙️<span>City</span></button><button data-tab="tasks">📋<span>Tasks</span></button><button data-tab="people">👥<span>People</span></button><button data-tab="phone">📱<span>Phone</span></button><button data-tab="profile">👤<span>Profile</span></button>
+  </nav>
+  <section id="tab-content" class="panel tab-content hidden"></section>
+</section>
+</main>
+<div id="toast" class="toast" role="status"></div>
+<script src="game.js"></script>
+</body></html>
